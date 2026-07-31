@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="risk-page">
+
+    <!-- Header -->
+
+    <div class="risk-header">
+
+        <div>
+            <h1>Risk Assessment</h1>
+            <p>Home <span>/ Risk Assessment</span></p>
+        </div>
+
+    </div>
+
+    <!-- Main Layout -->
+
+    <div class="risk-layout">
+
+        <!-- LEFT PANEL -->
+
+        <div class="risk-left">
+
+            <!-- Project Details -->
+
+            <div class="risk-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                            Risk Breakdown
+
+                        </h2>
+
+                        <p>
+
+                            Key contributors to the overall project risk.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="project-box">
+
+                    <label>Project Name</label>
+
+                    <h3>
+                        {% if project %}
+                            {{ project.project_name }}
+                        {% else %}
+                            No Project
+                        {% endif %}
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- Overall Risk -->
+
+            <div class="risk-card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <h2>Overall Risk Score</h2>
+                </div>
+
+                <div class="gauge-container">
+
+                    <svg class="gauge" viewBox="0 0 220 130">
+
+                        <!-- Background -->
+
+                        <path
+                            d="M20 110 A90 90 0 0 1 200 110"
+                            fill="none"
+                            stroke="#E2E8F0"
+                            stroke-width="16"
+                            stroke-linecap="round"/>
+
+                        <!-- Progress -->
+
+                        <path
+                            d="M20 110 A90 90 0 0 1 200 110"
+                            fill="none"
+                            stroke="{% if risk_level == 'HIGH RISK' %}#EF4444{% elif risk_level == 'MEDIUM RISK' %}#F59E0B{% else %}#22C55E{% endif %}"
+                            stroke-dasharray="{{ (risk_score * 282 / 100)|int }} 282"
+                            stroke-width="16"
+                            stroke-linecap="round"/>
+
+                    </svg>
+
+                    <div class="gauge-text">
+                        <h1>{{ risk_score }}%</h1>
+                        <small>out of 100</small>
+                    </div>
+
+                </div>
+
+                <div class="risk-status {{ 'high-risk' if risk_level == 'HIGH RISK' else 'medium-risk' if risk_level == 'MEDIUM RISK' else 'low-risk' }}">
+
+                    {{ risk_level }}
+
+                </div>
+
+            </div>
+
+            <!-- Risk Summary -->
+
+            <div class="risk-card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <h2>Risk Summary</h2>
+                </div>
+
+                <div class="summary-card">
+
+                    {{ summary }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+
+        <div class="risk-right">
+
+            <div class="risk-card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-list-check"></i>
+                    <h2>Risk Factors</h2>
+                </div>
+
+                <!-- Remaining Risk Factors continue in Part 2 -->
+                <!-- Factor -->
+
+                <div class="factor">
+
+                    <div class="factor-top">
+
+                        <div class="factor-icon">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+
+                        <div>
+                            <h3>Team Size</h3>
+                            <p>{{ project.team_size }} Members</p>
+                        </div>
+
+                        <span class="badge {{ 'high' if team_level=='HIGH' else 'medium' if team_level=='MEDIUM' else 'low' }}">
+                            {{ team_level }}
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-fill"
+                            style="width:{{ team_percent }}%; background:#2563eb;">
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Budget -->
+
+                <div class="factor">
+
+                    <div class="factor-top">
+
+                        <div class="factor-icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+
+                        <div>
+                            <h3>Budget</h3>
+                            <p>₹{{ project.budget }}</p>
+                        </div>
+
+                        <span class="badge {{ 'high' if budget_level=='HIGH' else 'medium' if budget_level=='MEDIUM' else 'low' }}">
+                            {{ budget_level }}
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-fill"
+                             style="width:{{ budget_percent }}%; background:#ef4444;">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Timeline -->
+
+                <div class="factor">
+
+                    <div class="factor-top">
+
+                        <div class="factor-icon">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                        <div>
+                            <h3>Timeline</h3>
+                            <p>{{ project.timeline }} Months</p>
+                        </div>
+
+                        <span class="badge {{ 'high' if timeline_level=='HIGH' else 'medium' if timeline_level=='MEDIUM' else 'low' }}">
+                            {{ timeline_level }}
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-fill"
+                             style="width:{{ timeline_percent }}%; background:#f59e0b;">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Technology -->
+
+                <div class="factor">
+
+                    <div class="factor-top">
+
+                        <div class="factor-icon">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+
+                        <div>
+                            <h3>Technology Stack</h3>
+                            <p>{{ project.tech_stack }}</p>
+                        </div>
+
+                        <span class="badge {{ 'high' if technology_level=='HIGH' else 'medium' if technology_level=='MEDIUM' else 'low' }}">
+                            {{ technology_level }}
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-fill"
+                             style="width:{{ technology_percent }}%; background:#22c55e;">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Recommendation -->
+
+                <div class="info-box">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <div>
+
+                        <h3>Recommendation</h3>
+
+                        <p>
+                            Increase the budget and extend the timeline to reduce project risk and improve delivery success.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
