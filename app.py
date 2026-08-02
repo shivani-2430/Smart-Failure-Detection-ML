@@ -11,8 +11,9 @@ db.init_app(app)
 
 register_routes(app)
 
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
+# Create tables on startup
+with app.app_context():
+    db.create_all()
 
+if __name__ == "__main__":
     app.run(debug=True)
