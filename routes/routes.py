@@ -12,7 +12,7 @@ import io
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
-
+from ml.predict import predict_risk
 
 def register_routes(app):
 
@@ -171,6 +171,13 @@ def register_routes(app):
             )
 
         result = RiskService.calculate_risk(project)
+        ml_prediction = predict_risk(
+            domain=project.domain,
+            budget=project.budget,
+            team_size=project.team_size,
+            timeline=project.timeline,
+            priority="Medium"
+        )
 
         return render_template(
             "risk.html",
@@ -185,7 +192,8 @@ def register_routes(app):
             team_percent=result["team_percent"],
             budget_percent=result["budget_percent"],
             timeline_percent=result["timeline_percent"],
-            technology_percent=result["technology_percent"]
+            technology_percent=result["technology_percent"],
+            ml_prediction=ml_prediction
         )
     @app.route("/recommendation")
     def recommendations():
