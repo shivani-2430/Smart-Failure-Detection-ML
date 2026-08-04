@@ -1,86 +1,166 @@
-# Smart Failure Detection with Machine Learning
+#  Smart Failure Detection using Machine Learning
 
 ##  Project Overview
 
-Smart Failure Detection with Machine Learning is an AI-powered web application developed as part of the **Infosys Springboard Internship Program**. The system assists startup founders, entrepreneurs, and business analysts in evaluating the potential success or failure of a project by combining project data, market intelligence, competitor analysis, and machine learning-based recommendations.
+Smart Failure Detection using Machine Learning is an AI-powered web application developed as part of the **Infosys Springboard Internship Program**.
 
-The application collects project information from users, stores it securely in a PostgreSQL database, performs market and competitor analysis, and provides insights that support informed business decision-making.
+The application helps organizations, startup founders, entrepreneurs, and business analysts evaluate the potential risk associated with software projects before implementation.
 
----
-
-##  Problem Statement
-
-Many startups and business projects fail due to insufficient market research, poor planning, lack of competitor analysis, and ineffective risk assessment. Entrepreneurs often make decisions without understanding market trends or evaluating potential risks.
-
-This project addresses these challenges by providing an intelligent system that analyzes project information, market conditions, and competitors to generate meaningful recommendations that help reduce project failure risk.
+The system collects project information, stores it securely in a PostgreSQL database, and applies a trained **Random Forest Machine Learning model** to predict the project's risk level (**Low, Medium, or High**). It further provides risk assessment, AI recommendations, market intelligence, AI decision simulation, and an executive report to support better business decisions.
 
 ---
 
-##  Features
+#  Problem Statement
 
-- Project Submission Form
-- PostgreSQL Database Integration
-- Market Intelligence Dashboard
-- Industry Overview Analysis
-- Market Demand Analysis
-- Competitor Analysis
-- SWOT Analysis
-- AI-Based Insights and Recommendations
-- Risk Assessment Module
-- Responsive and Interactive Dashboard
+Many software projects fail because of poor planning, inadequate budgeting, unrealistic timelines, and ineffective resource allocation.
+
+Organizations often struggle to identify project risks during the planning stage, leading to increased costs and project failures.
+
+This project addresses these challenges by combining machine learning with project analytics to estimate project risk and provide actionable recommendations before execution.
 
 ---
 
-##  Technologies Used
+#  Features
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend Programming |
-| Flask | Web Framework |
-| PostgreSQL | Database |
-| SQLAlchemy | ORM |
-| Flask-Migrate | Database Migration |
-| HTML5 | Frontend Structure |
-| CSS3 | Styling |
-| JavaScript | Client-side Interactivity |
-| Scikit-learn | Machine Learning |
-| Pandas | Data Processing |
-| NumPy | Numerical Computation |
-| Matplotlib | Data Visualization |
-| ReportLab | PDF Report Generation |
-| Font Awesome | Icons |
+-  Project Registration
+-  AI-Powered Risk Prediction
+-  Random Forest Machine Learning Model
+-  Risk Assessment Dashboard
+-  AI Recommendations
+-  Market Intelligence
+-  AI Decision Simulator
+-  Executive Report
+-  PostgreSQL Database Integration
+-  Responsive User Interface
 
 ---
 
-##  Project Structure
+#  Machine Learning Module
+
+### Algorithm Used
+
+- Random Forest Classifier
+
+### Input Features
+
+- Budget
+- Team Size
+- Timeline
+- Priority
+- Domain
+
+### Output
+
+- 🟢 Low Risk
+- 🟡 Medium Risk
+- 🔴 High Risk
+
+### Libraries Used
+
+- Scikit-learn
+- Pandas
+- NumPy
+- Joblib
+
+---
+
+#  Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Backend | Python, Flask |
+| Frontend | HTML5, CSS3, JavaScript, Jinja2 |
+| Database | PostgreSQL |
+| ORM | SQLAlchemy |
+| Machine Learning | Random Forest |
+| Data Processing | Pandas, NumPy |
+| ML Utilities | Joblib |
+| Report Generation | ReportLab |
+| Icons | Font Awesome |
+| Deployment | Render |
+
+---
+
+#  System Architecture
 
 ```text
-Smart-Failure-Detection-ML
-│
-├── database/
-├── ml/
-├── models/
-├── routes/
-├── services/
-├── static/
-│   ├── css/
-│   ├── js/
-│   ├── images/
-│   └── icons/
-├── templates/
-├── utils/
-├── app.py
-├── config.py
-├── requirements.txt
-├── README.md
-└── .gitignore
+                User
+                  │
+                  ▼
+          HTML / CSS Frontend
+                  │
+                  ▼
+            Flask Backend
+                  │
+      ┌───────────┴───────────┐
+      ▼                       ▼
+PostgreSQL Database     Random Forest Model
+      │                       │
+      └───────────┬───────────┘
+                  ▼
+          Risk Assessment
+                  │
+                  ▼
+        AI Recommendations
+                  │
+                  ▼
+       Market Intelligence
+                  │
+                  ▼
+      AI Decision Simulator
+                  │
+                  ▼
+          Executive Report
 ```
 
 ---
 
-##  Installation
+#  Project Workflow
 
-### Clone the Repository
+1. User submits project details.
+2. Project information is stored in PostgreSQL.
+3. The Random Forest model predicts the project risk level.
+4. Risk Assessment is generated.
+5. AI Recommendations are provided.
+6. Market Intelligence is displayed.
+7. AI Decision Simulator evaluates different project scenarios.
+8. Executive Report summarizes the complete analysis.
+
+---
+
+#  Project Structure
+
+```text
+Smart-Failure-Detection-ML
+│
+├── app.py
+├── config.py
+├── requirements.txt
+├── README.md
+│
+├── database/
+├── models/
+├── routes/
+├── services/
+├── static/
+│
+├── templates/
+│
+└── ml/
+    ├── dataset.csv
+    ├── train_model.py
+    ├── predict.py
+    ├── model.pkl
+    ├── domain_encoder.pkl
+    ├── priority_encoder.pkl
+    └── risk_encoder.pkl
+```
+
+---
+
+# ⚙ Installation
+
+### Clone Repository
 
 ```bash
 git clone <repository-url>
@@ -101,6 +181,12 @@ Windows
 venv\Scripts\activate
 ```
 
+Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
 ### Install Dependencies
 
 ```bash
@@ -109,15 +195,15 @@ pip install -r requirements.txt
 
 ### Configure PostgreSQL
 
-Create a PostgreSQL database and update the database configuration in `config.py`.
+Update the PostgreSQL connection details inside **config.py**.
 
-### Run the Application
+### Run Application
 
 ```bash
 python app.py
 ```
 
-Open your browser and visit:
+Open
 
 ```
 http://127.0.0.1:5000
@@ -125,67 +211,74 @@ http://127.0.0.1:5000
 
 ---
 
-## Workflow
+#  Application Modules
 
-1. User submits project details.
-2. Project information is stored in PostgreSQL.
-3. The system performs market analysis.
-4. Competitor information is analyzed.
-5. SWOT analysis is generated.
-6. AI generates insights and recommendations.
-7. Results are displayed through an interactive dashboard.
+- Project Registration
+- Risk Assessment
+- AI Recommendations
+- Market Intelligence
+- AI Decision Simulator
+- Executive Report
 
 ---
 
-##  Target Users
+#  Machine Learning Workflow
+
+```text
+Project Details
+        │
+        ▼
+Data Preprocessing
+        │
+        ▼
+Feature Encoding
+        │
+        ▼
+Random Forest Classifier
+        │
+        ▼
+Risk Prediction
+        │
+        ▼
+Low / Medium / High Risk
+```
+
+---
+
+#  Target Users
 
 - Startup Founders
 - Entrepreneurs
 - Business Analysts
 - Investors
-- Business Mentors
 - Incubation Centers
+- Project Managers
 
 ---
 
-##  Output Screenshots
+#  Future Enhancements
 
-The following screenshots are included in the project documentation:
-
-- Dashboard
-- Project Submission Form
-- Risk Assessment
-- Recommendations
-- Market Intelligence
-- Competitor Analysis
-- PostgreSQL Database
-- Final Output
+- Live Market Data Integration
+- XGBoost-Based Risk Prediction
+- Deep Learning Models
+- User Authentication
+- Docker Containerization
+- Cloud-Based Model Retraining
+- Interactive Analytics Dashboard
+- REST API Integration
 
 ---
 
-## Future Enhancements
-
-- Real-time market data integration
-- Advanced machine learning models
-- User authentication
-- Cloud deployment
-- AI chatbot assistance
-- Predictive analytics dashboard
-- PDF report generation
-- Data visualization enhancements
-
----
-
-##  Developed By
+#  Developed By
 
 **Shivani Tangudu**
 
-B.Tech - Artificial Intelligence & Machine Learning
+B.Tech – Artificial Intelligence & Machine Learning
 
 Infosys Springboard Internship Project
 
 ---
 
-##  License
+#  License
 
-This project was developed for educational and internship purposes as part of the Infosys Springboard Internship Program.
+This project was developed for educational and internship purposes under the **Infosys Springboard Internship Program**.
