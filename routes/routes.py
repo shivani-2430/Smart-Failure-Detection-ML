@@ -178,6 +178,42 @@ def register_routes(app):
             timeline=project.timeline,
             priority="Medium"
         )
+        # Project Feasibility Assessment
+        feasibility_score = max(0, 100 - result["score"])
+
+        if feasibility_score >= 80:
+            feasibility_level = "HIGHLY FEASIBLE"
+            feasibility_message = (
+                "The project is highly feasible based on the current "
+                "budget, team, timeline and technology factors."
+            )
+            feasibility_status = "PROCEED"
+        elif feasibility_score >= 60:
+            feasibility_level = "FEASIBLE"
+            feasibility_message = (
+                "The project is feasible, but some project factors "
+                "should be monitored during execution."
+            )
+            feasibility_status = "PROCEED WITH CAUTION"
+        elif feasibility_score >= 40:
+            feasibility_level = "MODERATELY FEASIBLE"
+            feasibility_message = (
+                "The project requires improvements in one or more "
+                "key areas before execution."
+            )
+            feasibility_status = "REVIEW REQUIRED"
+        else:
+            feasibility_level = "LOW FEASIBILITY"
+            feasibility_message = (
+                "The project requires significant improvements "
+                "before execution."
+            )
+            feasibility_status = "REASSESS PROJECT"
+
+        budget_readiness = max(0, 100 - result["budget_percent"])
+        team_readiness = max(0, 100 - result["team_percent"])
+        timeline_readiness = max(0, 100 - result["timeline_percent"])
+        technology_readiness = max(0, 100 - result["technology_percent"])
 
         return render_template(
             "risk.html",
@@ -193,7 +229,15 @@ def register_routes(app):
             budget_percent=result["budget_percent"],
             timeline_percent=result["timeline_percent"],
             technology_percent=result["technology_percent"],
-            ml_prediction=ml_prediction
+            ml_prediction=ml_prediction,
+            feasibility_score=feasibility_score,
+            feasibility_level=feasibility_level,
+            feasibility_message=feasibility_message,
+            feasibility_status=feasibility_status,
+            budget_readiness=budget_readiness,
+            team_readiness=team_readiness,
+            timeline_readiness=timeline_readiness,
+            technology_readiness=technology_readiness
         )
     @app.route("/recommendation")
     def recommendations():
