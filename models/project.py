@@ -16,7 +16,7 @@ class Project(db.Model):
 
     team_size = db.Column(db.Integer)
 
-    budget = db.Column(db.Float)
+    budget = db.Column(db.Numeric(15, 2))
 
     timeline = db.Column(db.Integer)
 
