@@ -7,6 +7,7 @@ from services.risk_service import RiskService
 from services.market_service import MarketService
 from services.recommendation_service import RecommendationService
 from services.report_service import ReportService
+from services.ai_strategy_service import generate_strategy
 
 import io
 
@@ -276,6 +277,264 @@ def register_routes(app):
             summary=recommendation["summary"]
 
         )
+    # =========================================================
+    # MILESTONE 3 - AI STRATEGY
+    # =========================================================
+    @app.route("/ai-strategy")
+    def ai_strategy():
+
+        project = Project.query.order_by(
+            Project.id.desc()
+        ).first()
+
+        if project is None:
+            return redirect(url_for("home"))
+
+        # ==========================================
+        # EXISTING RISK ASSESSMENT
+        # ==========================================
+
+        result = RiskService.calculate_risk(project)
+
+        # ==========================================
+        # EXISTING ML PREDICTION
+        # ==========================================
+
+        ml_prediction = predict_risk(
+            domain=project.domain,
+            budget=project.budget,
+            team_size=project.team_size,
+            timeline=project.timeline,
+            priority="Medium"
+        )
+
+        # ==========================================
+        # FEASIBILITY
+        # ==========================================
+
+        feasibility_score = max(
+            0,
+            100 - result["score"]
+        )
+
+        if feasibility_score >= 80:
+
+            feasibility_level = "HIGHLY FEASIBLE"
+
+        elif feasibility_score >= 60:
+
+            feasibility_level = "FEASIBLE"
+
+        elif feasibility_score >= 40:
+
+            feasibility_level = "MODERATELY FEASIBLE"
+
+        else:
+
+            feasibility_level = "LOW FEASIBILITY"
+
+        # ==========================================
+        # REAL PROJECT CONTEXT
+        # ==========================================
+
+        project_context = f"""
+PROJECT INFORMATION
+
+Project Name:
+{project.project_name}
+
+Organization:
+{project.organization}
+
+Domain:
+{project.domain}
+
+Technology Stack:
+{project.tech_stack}
+
+Team Size:
+{project.team_size}
+
+Budget:
+{project.budget}
+
+Timeline:
+{project.timeline}
+
+Description:
+{project.description}
+
+
+EXISTING SYSTEM ANALYSIS
+
+Risk Score:
+{result["score"]}%
+
+Risk Level:
+{result["level"]}
+
+Feasibility Score:
+{feasibility_score}%
+
+Feasibility Level:
+{feasibility_level}
+
+Machine Learning Prediction:
+{ml_prediction}
+
+Team Risk:
+{result["team_level"]} ({result["team_percent"]}%)
+
+Budget Risk:
+{result["budget_level"]} ({result["budget_percent"]}%)
+
+Timeline Risk:
+{result["timeline_level"]} ({result["timeline_percent"]}%)
+
+Technology Risk:
+{result["technology_level"]} ({result["technology_percent"]}%)
+"""
+
+        # ==========================================
+        # AI STRATEGY
+        # ==========================================
+
+        from services.ai_strategy_service import generate_strategy
+
+        try:
+
+            ai_result = generate_strategy(
+                project_context
+            )
+
+            strategic_analysis = ai_result.get(
+                "strategic_analysis",
+                "AI strategic analysis generated successfully."
+            )
+
+            mitigation_plan = ai_result.get(
+                "mitigation_plan",
+                []
+            )
+
+            final_strategy = ai_result.get(
+                "final_strategy",
+                "AI strategic direction generated successfully."
+            )
+
+        except Exception as e:
+
+            # ==========================================
+            # SAFE FALLBACK
+            # ==========================================
+
+            print(
+                "AI Strategy generation temporarily unavailable:",
+                e
+            )
+
+            strategic_analysis = (
+                "The project currently shows a "
+                f"{result['level'].lower()} risk position with "
+                f"{feasibility_score}% feasibility and a "
+                f"{ml_prediction} machine-learning risk prediction. "
+                "The project should continue to be evaluated using "
+                "the available risk, feasibility, and ML indicators."
+            )
+
+            mitigation_plan = [
+
+                {
+                    "action": (
+                        "Review the highest-contributing project "
+                        "risk factors before execution."
+                    ),
+                    "impact": (
+                        "Helps reduce execution uncertainty "
+                        "and improve project readiness."
+                    )
+                },
+
+                {
+                    "action": (
+                        "Track budget, team capacity, timeline, "
+                        "and technology risks throughout development."
+                    ),
+                    "impact": (
+                        "Supports early identification of changes "
+                        "that could affect project delivery."
+                    )
+                },
+
+                {
+                    "action": (
+                        "Validate missing project requirements "
+                        "before final implementation decisions."
+                    ),
+                    "impact": (
+                        "Reduces the possibility of rework caused "
+                        "by incomplete requirements."
+                    )
+                }
+
+            ]
+
+            final_strategy = (
+                "PRIMARY DIRECTION\n"
+                "Proceed with disciplined project execution "
+                "while continuously monitoring the identified "
+                "risk and feasibility factors.\n\n"
+
+                "WHY THIS DIRECTION\n"
+                f"The current project has a {result['score']}% "
+                f"risk score and {feasibility_score}% feasibility. "
+                "Available project information should be validated "
+                "throughout execution before making major strategic "
+                "decisions.\n\n"
+
+                "PRIORITY\n"
+                "HIGH\n\n"
+
+                "EXPECTED IMPACT\n"
+                "Improved project monitoring, earlier risk detection, "
+                "and reduced execution uncertainty."
+            )
+
+        # ==========================================
+        # DISPLAY AI STRATEGY
+        # ==========================================
+
+        return render_template(
+            "ai_strategy.html",
+
+            project=project,
+
+            risk_score=result["score"],
+            risk_level=result["level"],
+
+            feasibility_score=feasibility_score,
+            feasibility_level=feasibility_level,
+
+            ml_prediction=ml_prediction,
+
+            strategic_analysis=strategic_analysis,
+
+            mitigation_plan=mitigation_plan,
+
+            final_strategy=final_strategy
+        )
+
+    # =========================================================
+    # MILESTONE 3 - AI PROJECT ADVISOR
+    # =========================================================
+
+    @app.route("/ai-advisor")
+    def ai_advisor():
+
+        return """
+        <h1>AI Project Advisor</h1>
+        <p>AI Project Advisor will be implemented here.</p>
+        """
     @app.route("/market")
     def market():
 

@@ -3,6 +3,26 @@
 {% block content %}
 
 <div class="recommendation-container">
+    <!-- Recommendation Navigation -->
+
+    <div class="recommendation-nav">
+
+        <a href="{{ url_for('recommendations') }}" class="recommendation-nav-item active">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Recommendations</span>
+        </a>
+
+        <a href="{{ url_for('ai_strategy') }}" class="recommendation-nav-item">
+            <i class="fa-solid fa-compass-drafting"></i>
+            <span>AI Strategy</span>
+        </a>
+
+        <a href="{{ url_for('ai_advisor') }}" class="recommendation-nav-item">
+            <i class="fa-solid fa-comments"></i>
+            <span>AI Project Advisor</span>
+        </a>
+
+    </div>
 
     <!-- Header -->
     <div class="page-header">
