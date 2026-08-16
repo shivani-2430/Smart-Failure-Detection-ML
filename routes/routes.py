@@ -531,10 +531,218 @@ Technology Risk:
     @app.route("/ai-advisor")
     def ai_advisor():
 
-        return """
-        <h1>AI Project Advisor</h1>
-        <p>AI Project Advisor will be implemented here.</p>
-        """
+        project = Project.query.order_by(
+            Project.id.desc()
+        ).first()
+
+        if project is None:
+            return redirect(url_for("home"))
+
+        # ==========================================
+        # EXISTING RISK ASSESSMENT
+        # ==========================================
+
+        result = RiskService.calculate_risk(project)
+
+        # ==========================================
+        # EXISTING ML PREDICTION
+        # ==========================================
+
+        ml_prediction = predict_risk(
+            domain=project.domain,
+            budget=project.budget,
+            team_size=project.team_size,
+            timeline=project.timeline,
+            priority="Medium"
+        )
+
+        # ==========================================
+        # FEASIBILITY
+        # ==========================================
+
+        feasibility_score = max(
+            0,
+            100 - result["score"]
+        )
+
+        # ==========================================
+        # DISPLAY AI ADVISOR
+        # ==========================================
+
+        return render_template(
+            "ai_advisor.html",
+
+            project=project,
+
+            risk_score=result["score"],
+
+            feasibility_score=feasibility_score,
+
+            ml_prediction=ml_prediction,
+
+            risk_level=result["level"],
+
+            team_percent=result["team_percent"],
+
+            budget_percent=result["budget_percent"],
+
+            timeline_percent=result["timeline_percent"],
+
+            technology_percent=result["technology_percent"]
+        )
+
+
+    # =========================================================
+    # AI PROJECT ADVISOR CHAT API
+    # =========================================================
+
+    @app.route("/api/ai-advisor", methods=["POST"])
+    def ai_advisor_chat():
+
+        project = Project.query.order_by(
+            Project.id.desc()
+        ).first()
+
+        if project is None:
+
+            return {
+                "success": False,
+                "message": "No project is currently available."
+            }, 404
+
+        data = request.get_json()
+
+        question = data.get(
+            "question",
+            ""
+        ).strip()
+
+        if not question:
+
+            return {
+                "success": False,
+                "message": "Please enter a question."
+            }, 400
+
+        # ==========================================
+        # EXISTING RISK ASSESSMENT
+        # ==========================================
+
+        result = RiskService.calculate_risk(project)
+
+        # ==========================================
+        # EXISTING ML PREDICTION
+        # ==========================================
+
+        ml_prediction = predict_risk(
+            domain=project.domain,
+            budget=project.budget,
+            team_size=project.team_size,
+            timeline=project.timeline,
+            priority="Medium"
+        )
+
+        # ==========================================
+        # FEASIBILITY
+        # ==========================================
+
+        feasibility_score = max(
+            0,
+            100 - result["score"]
+        )
+
+        # ==========================================
+        # REAL PROJECT CONTEXT
+        # ==========================================
+
+        project_context = f"""
+PROJECT NAME:
+{project.project_name}
+
+ORGANIZATION:
+{project.organization}
+
+DOMAIN:
+{project.domain}
+
+TECHNOLOGY STACK:
+{project.tech_stack}
+
+TEAM SIZE:
+{project.team_size}
+
+BUDGET:
+{project.budget}
+
+TIMELINE:
+{project.timeline}
+
+DESCRIPTION:
+{project.description}
+
+
+EXISTING RISK ANALYSIS:
+
+Risk Score:
+{result["score"]}%
+
+Risk Level:
+{result["level"]}
+
+Feasibility Score:
+{feasibility_score}%
+
+Machine Learning Prediction:
+{ml_prediction}
+
+Team Risk:
+{result["team_level"]} ({result["team_percent"]}%)
+
+Budget Risk:
+{result["budget_level"]} ({result["budget_percent"]}%)
+
+Timeline Risk:
+{result["timeline_level"]} ({result["timeline_percent"]}%)
+
+Technology Risk:
+{result["technology_level"]} ({result["technology_percent"]}%)
+"""
+
+        # ==========================================
+        # GEMINI AI ADVISOR
+        # ==========================================
+
+        try:
+
+            from services.ai_advisor_service import (
+                ask_project_advisor
+            )
+
+            answer = ask_project_advisor(
+                project_context,
+                question
+            )
+
+            return {
+                "success": True,
+                "answer": answer
+            }
+
+        except Exception as e:
+
+            print(
+                "AI Advisor error:",
+                e
+            )
+
+            return {
+                "success": False,
+                "message": (
+                    "The AI Advisor is temporarily unavailable. "
+                    "Please try again."
+                )
+            }, 500
+
     @app.route("/market")
     def market():
 
