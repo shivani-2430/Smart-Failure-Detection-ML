@@ -305,32 +305,9 @@
         </div>
 
 
-        <div class="mitigation-list">
+        <div class="ai-output-content">
 
-            {% for item in mitigation_plan %}
-
-            <div class="mitigation-action">
-
-                <div class="mitigation-number">
-                    {{ loop.index }}
-                </div>
-
-                <div class="mitigation-content">
-
-                    <h3>
-                        {{ item.action }}
-                    </h3>
-
-                    <p>
-                        <strong>Expected Impact:</strong>
-                        {{ item.impact }}
-                    </p>
-
-                </div>
-
-            </div>
-
-            {% endfor %}
+            {{ strategic_analysis | replace('\n', '<br>') | safe }}
 
         </div>
 
@@ -360,9 +337,32 @@
         </div>
 
 
-        <div class="ai-output-content">
+        <div class="mitigation-list">
 
-            {{ mitigation_plan | replace('\n', '<br>') | safe }}
+            {% for item in mitigation_plan %}
+
+            <div class="mitigation-action">
+
+                <div class="mitigation-number">
+                    {{ loop.index }}
+                </div>
+
+                <div class="mitigation-content">
+
+                    <h3>
+                        {{ item.action }}
+                    </h3>
+
+                    <p>
+                        <strong>Expected Impact:</strong>
+                        {{ item.impact }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
 
         </div>
 
