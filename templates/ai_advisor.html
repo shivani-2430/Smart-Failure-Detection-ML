@@ -893,8 +893,9 @@
                     <span>
                         Current readiness is calculated from
                         the project's existing feasibility and
-                        risk analysis. Future values are
-                        projections, not historical measurements.
+                        risk analysis.Future values represent a scenario-based projection assuming
+                        progressive risk mitigation and monitoring. They are not
+                        historical measurements or guaranteed forecasts.
                     </span>
 
                 </div>
@@ -1299,23 +1300,86 @@ document
 const currentReadiness =
     Number("{{ feasibility_score }}");
 
+const currentRisk =
+    Number("{{ risk_score }}");
+
 
 /*
-    Current value = REAL project feasibility.
+    DYNAMIC READINESS PROJECTION
 
-    Future values below are only indicative UI projections.
-    We will later replace these with genuine AI-generated
-    projections once the projection logic is implemented.
+    The current readiness is the REAL feasibility score
+    calculated by the existing Risk Assessment system.
+
+    Future values are scenario-based projections.
+
+    Instead of adding a fixed number every month, the
+    projection assumes that a portion of the CURRENT
+    project risk is progressively reduced through
+    mitigation and monitoring.
+
+    This means the projection changes according to the
+    actual risk score of each project.
 */
 
+
+const monthlyRiskReduction = 0.20;
+
+
+/*
+    Month 1
+
+    Reduce 20% of the current risk.
+*/
+
+const riskAfterOneMonth =
+    currentRisk * (1 - monthlyRiskReduction);
+
 const projectedOne =
-    Math.min(currentReadiness + 5, 100);
+    Math.min(
+        100,
+        Math.round(
+            (100 - riskAfterOneMonth) * 10
+        ) / 10
+    );
+
+
+/*
+    Month 2
+
+    Apply the same mitigation rate to the
+    remaining risk.
+*/
+
+const riskAfterTwoMonths =
+    riskAfterOneMonth *
+    (1 - monthlyRiskReduction);
 
 const projectedTwo =
-    Math.min(currentReadiness + 10, 100);
+    Math.min(
+        100,
+        Math.round(
+            (100 - riskAfterTwoMonths) * 10
+        ) / 10
+    );
+
+
+/*
+    Month 3
+
+    Continue the same risk-reduction scenario.
+*/
+
+const riskAfterThreeMonths =
+    riskAfterTwoMonths *
+    (1 - monthlyRiskReduction);
 
 const projectedThree =
-    Math.min(currentReadiness + 15, 100);
+    Math.min(
+        100,
+        Math.round(
+            (100 - riskAfterThreeMonths) * 10
+        ) / 10
+    );
 
 
 const chartElement =
@@ -1350,7 +1414,7 @@ if (chartElement) {
                     {
 
                         label:
-                            "Project Readiness",
+                            "Projected Readiness",
 
                         data: [
                             currentReadiness,

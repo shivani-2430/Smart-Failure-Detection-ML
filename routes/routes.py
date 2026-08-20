@@ -289,12 +289,22 @@ def register_routes(app):
 
         if project is None:
             return redirect(url_for("home"))
-
-        # ==========================================
-        # EXISTING RISK ASSESSMENT
-        # ==========================================
-
+        
         result = RiskService.calculate_risk(project)
+        # ==========================================
+        # DYNAMIC STRATEGIC PRIORITY
+        # ==========================================
+
+        risk_score = result["score"]
+
+        if risk_score <= 20:
+            strategic_priority = "LOW"
+
+        elif risk_score <= 40:
+            strategic_priority = "MEDIUM"
+
+        else:
+            strategic_priority = "HIGH"
 
         # ==========================================
         # EXISTING ML PREDICTION
@@ -404,7 +414,8 @@ Technology Risk:
         try:
 
             ai_result = generate_strategy(
-                project_context
+                project_context,
+                strategic_priority
             )
 
             strategic_analysis = ai_result.get(
@@ -493,7 +504,7 @@ Technology Risk:
                 "decisions.\n\n"
 
                 "PRIORITY\n"
-                "HIGH\n\n"
+                f"{strategic_priority}\n\n"
 
                 "EXPECTED IMPACT\n"
                 "Improved project monitoring, earlier risk detection, "
@@ -543,6 +554,23 @@ Technology Risk:
         # ==========================================
 
         result = RiskService.calculate_risk(project)
+        # ==========================================
+        # DYNAMIC STRATEGIC PRIORITY
+        # ==========================================
+
+        risk_score = result["score"]
+
+        if risk_score <= 20:
+
+            strategic_priority = "LOW"
+
+        elif risk_score <= 40:
+
+            strategic_priority = "MEDIUM"
+
+        else:
+
+            strategic_priority = "HIGH"
 
         # ==========================================
         # EXISTING ML PREDICTION

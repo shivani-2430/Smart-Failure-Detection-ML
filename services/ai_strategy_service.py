@@ -41,6 +41,8 @@ class StrategyState(TypedDict):
 
     project_context: str
 
+    priority: str
+
     strategic_analysis: str
 
     mitigation_plan: list
@@ -302,11 +304,21 @@ The recommendation must:
 
 - identify one clear primary direction
 - explain why that direction is appropriate
-- assign HIGH, MEDIUM, or LOW priority
+- use the supplied strategic priority exactly
+- do not change or reinterpret the strategic priority
 - describe a concrete expected impact
 - remain completely grounded in the supplied information
 
 Do not introduce facts that are not present in PROJECT CONTEXT.
+
+THE STRATEGIC PRIORITY HAS ALREADY BEEN CALCULATED
+FROM THE PROJECT'S RISK SCORE.
+
+STRATEGIC PRIORITY:
+{state["priority"]}
+
+You MUST return exactly this priority.
+Do not independently assign a different priority.
 
 Return JSON using exactly this structure:
 
@@ -355,7 +367,7 @@ Return JSON using exactly this structure:
         f"WHY THIS DIRECTION\n"
         f"{result['reasoning']}\n\n"
         f"PRIORITY\n"
-        f"{result['priority']}\n\n"
+        f"{state['priority']}\n\n"
         f"EXPECTED IMPACT\n"
         f"{result['expected_impact']}"
     )
@@ -416,13 +428,17 @@ strategy_agent = workflow.compile()
 # PUBLIC FUNCTION
 # =========================================================
 
-def generate_strategy(project_context: str):
+def generate_strategy(
+    project_context: str,
+    priority: str
+):
 
     return strategy_agent.invoke(
         {
             "project_context": project_context,
+            "priority": priority,
             "strategic_analysis": "",
-            "mitigation_plan": "",
+            "mitigation_plan": [],
             "final_strategy": ""
         }
     )
