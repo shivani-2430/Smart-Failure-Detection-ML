@@ -13,7 +13,10 @@ import io
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
-from ml.predict import predict_risk
+from ml.predict import (
+    predict_risk,
+    predict_risk_with_confidence
+)
 
 def register_routes(app):
 
@@ -250,6 +253,19 @@ def register_routes(app):
             return redirect(url_for("home"))
 
         risk = RiskService.calculate_risk(project)
+        # ==========================================
+        # ML PREDICTION CONFIDENCE
+        # ==========================================
+
+        ml_result = predict_risk_with_confidence(
+            domain=project.domain,
+            budget=project.budget,
+            team_size=project.team_size,
+            timeline=project.timeline,
+            priority="Medium"
+        )
+
+        prediction_confidence = ml_result["confidence"]
 
         from services.recommendation_service import RecommendationService
 
@@ -263,6 +279,8 @@ def register_routes(app):
             "recommendation.html",
 
             project=project,
+
+            prediction_confidence=prediction_confidence,
 
             health=recommendation["health"],
 
