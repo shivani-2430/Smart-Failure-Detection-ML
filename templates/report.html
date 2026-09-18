@@ -4,310 +4,1221 @@
 
 <style>
 
-.report-container{
+/* =========================================================
+   EXECUTIVE REPORT
+   Clean White + Navy + Blue Theme
+   ========================================================= */
 
-    padding:30px;
-
+.report-page {
+    padding: 28px 34px 45px;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: #172554;
 }
 
-.page-title{
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
 
-    text-align:center;
-
-    font-size:40px;
-
-    color:#1e3a8a;
-
-    margin-bottom:30px;
-
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 20px;
 }
 
-.report-card{
-
-    background:white;
-
-    border-radius:15px;
-
-    padding:25px;
-
-    margin-bottom:25px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.12);
-
-    transition:.3s;
-
+.report-title-area h1 {
+    margin: 0;
+    color: #173b8f;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-.report-card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 10px 25px rgba(37,99,235,.20);
-
+.report-subtitle {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 14px;
 }
 
-.report-card h2{
-
-    color:#2563eb;
-
-    margin-bottom:20px;
-
-    border-bottom:2px solid #2563eb;
-
-    padding-bottom:10px;
-
+.report-meta {
+    text-align: right;
+    color: #64748b;
+    font-size: 12px;
 }
 
-.report-table{
-
-    width:100%;
-
+.report-meta strong {
+    color: #173b8f;
+    font-size: 13px;
 }
 
-.report-table td{
+/* ---------------------------------------------------------
+   COMMON CARD
+   --------------------------------------------------------- */
 
-    padding:12px;
-
-    border:none;
-
-    text-align:left;
-
+.report-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
 }
 
-.label{
-
-    font-weight:bold;
-
-    color:#1e3a8a;
-
-    width:220px;
-
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #173b8f;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
 }
 
-.rating{
-
-    font-size:40px;
-
-    text-align:center;
-
-    color:#f59e0b;
-
-    margin-top:15px;
-
+.section-description {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 18px;
 }
 
-.verdict{
-
-    text-align:center;
-
-    font-size:24px;
-
-    font-weight:bold;
-
-    color:#16a34a;
-
-    margin-top:15px;
-
+.section-line {
+    height: 1px;
+    background: #dbeafe;
+    margin: 12px 0 18px;
 }
 
-.summary{
+/* ---------------------------------------------------------
+   PROJECT OVERVIEW
+   --------------------------------------------------------- */
 
-    line-height:1.8;
-
+.project-overview {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 28px;
 }
 
-.navigation{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-top:30px;
-
+.project-details {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    row-gap: 13px;
+    font-size: 13px;
 }
 
-.nav-btn{
-
-    text-decoration:none;
-
-    background:#2563eb;
-
-    color:white;
-
-    padding:12px 28px;
-
-    border-radius:8px;
-
-    font-weight:bold;
-
+.project-label {
+    font-weight: 600;
+    color: #173b8f;
 }
 
-.nav-btn:hover{
+.project-value {
+    color: #334155;
+    word-break: break-word;
+}
 
-    background:#1d4ed8;
+.description-box {
+    background: #f4f8ff;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 18px;
+}
 
+.description-box h3 {
+    margin: 0 0 10px;
+    color: #173b8f;
+    font-size: 14px;
+}
+
+.description-box p {
+    margin: 0;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* ---------------------------------------------------------
+   KEY METRICS
+   --------------------------------------------------------- */
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.metric-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 18px;
+    min-height: 105px;
+}
+
+.metric-label {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.metric-value {
+    color: #173b8f;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.metric-small {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.progress-track {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 13px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #2563eb;
+    border-radius: 10px;
+}
+
+/* ---------------------------------------------------------
+   TWO COLUMN SECTION
+   --------------------------------------------------------- */
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* ---------------------------------------------------------
+   RISK BREAKDOWN
+   --------------------------------------------------------- */
+
+.risk-row {
+    display: grid;
+    grid-template-columns: 125px 80px 1fr 45px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.risk-factor {
+    color: #334155;
+    font-weight: 600;
+}
+
+.risk-level {
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 5px 9px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.risk-bar {
+    height: 7px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.risk-bar-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+.risk-number {
+    color: #475569;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* ---------------------------------------------------------
+   ML ASSESSMENT
+   --------------------------------------------------------- */
+
+.ml-box {
+    background: #f4f8ff;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 17px;
+    margin-bottom: 15px;
+}
+
+.ml-title {
+    color: #64748b;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.ml-prediction {
+    color: #173b8f;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.ml-details {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    row-gap: 12px;
+    font-size: 12px;
+}
+
+.ml-label {
+    color: #64748b;
+    font-weight: 600;
+}
+
+.ml-value {
+    color: #334155;
+}
+
+/* ---------------------------------------------------------
+   RECOMMENDATIONS
+   --------------------------------------------------------- */
+
+.recommendation-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.recommendation-number {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background: #eaf2ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.recommendation-content strong {
+    display: block;
+    color: #173b8f;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.recommendation-content span {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   MARKET INTELLIGENCE
+   --------------------------------------------------------- */
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.market-table tr {
+    border-bottom: 1px solid #eef2f7;
+}
+
+.market-table tr:last-child {
+    border-bottom: none;
+}
+
+.market-table td {
+    padding: 11px 4px;
+    font-size: 12px;
+}
+
+.market-label {
+    width: 130px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.market-value {
+    color: #334155;
+    font-weight: 500;
+}
+
+.market-insight {
+    margin-top: 15px;
+    background: #f4f8ff;
+    border: 1px solid #dbeafe;
+    border-radius: 9px;
+    padding: 14px;
+}
+
+.market-insight strong {
+    color: #173b8f;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.market-insight p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   EXECUTIVE SUMMARY
+   --------------------------------------------------------- */
+
+.summary-text {
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------
+   FINAL ASSESSMENT
+   --------------------------------------------------------- */
+
+.final-assessment {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 30px;
+    align-items: center;
+}
+
+.final-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.final-metric {
+    border-left: 3px solid #2563eb;
+    padding-left: 13px;
+}
+
+.final-metric-label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.final-metric-value {
+    font-size: 17px;
+    font-weight: 700;
+    color: #173b8f;
+}
+
+.verdict-box {
+    border-left: 1px solid #e2e8f0;
+    padding-left: 30px;
+    text-align: center;
+}
+
+.rating {
+    color: #2563eb;
+    font-size: 27px;
+    letter-spacing: 2px;
+}
+
+.verdict {
+    color: #173b8f;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+/* ---------------------------------------------------------
+   NAVIGATION
+   --------------------------------------------------------- */
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.previous-btn {
+    border: 1px solid #bfdbfe;
+    color: #2563eb;
+    background: #ffffff;
+}
+
+.previous-btn:hover {
+    background: #eff6ff;
+}
+
+.download-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.download-btn:hover {
+    background: #1d4ed8;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+
+    .project-overview,
+    .two-column,
+    .final-assessment {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .verdict-box {
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+        padding-left: 0;
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .report-page {
+        padding: 18px;
+    }
+
+    .report-header {
+        flex-direction: column;
+    }
+
+    .report-meta {
+        text-align: left;
+    }
+
+    .metric-grid,
+    .final-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .project-details {
+        grid-template-columns: 110px 1fr;
+    }
+
+    .risk-row {
+        grid-template-columns: 90px 65px 1fr 35px;
+    }
+
+    .navigation {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .nav-btn {
+        justify-content: center;
+    }
 }
 
 </style>
 
-<div class="report-container">
 
-<h1 class="page-title">
+<div class="report-page">
 
-Executive Report
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-</h1>
+    <div class="report-header">
 
-<div class="report-card">
+        <div class="report-title-area">
 
-<h2>Project Information</h2>
+            <h1>Executive Report</h1>
 
-<table class="report-table">
+            <div class="report-subtitle">
+                Project Intelligence for Better Decisions
+            </div>
 
-<tr>
-<td class="label">Project Name</td>
-<td>{{ project.project_name }}</td>
-</tr>
+        </div>
 
-<tr>
-<td class="label">Domain</td>
-<td>{{ project.domain }}</td>
-</tr>
+        <div class="report-meta">
 
-<tr>
-<td class="label">Technology</td>
-<td>{{ project.tech_stack }}</td>
-</tr>
+            <strong>Smart Failure Detection</strong><br>
 
-<tr>
-<td class="label">Budget</td>
-<td>₹ {{ project.budget }}</td>
-</tr>
+            Generated from the latest project assessment
 
-<tr>
-<td class="label">Timeline</td>
-<td>{{ project.timeline }} Months</td>
-</tr>
+        </div>
 
-<tr>
-<td class="label">Team Size</td>
-<td>{{ project.team_size }}</td>
-</tr>
+    </div>
 
-</table>
 
-</div>
+    <!-- =====================================================
+         PROJECT OVERVIEW
+         ===================================================== -->
 
-<div class="report-card">
+    <div class="report-card">
 
-<h2>Risk Assessment</h2>
+        <div class="section-heading">
+            Project Overview
+        </div>
 
-<table class="report-table">
+        <div class="section-description">
+            Key information about the assessed project
+        </div>
 
-<tr>
-<td class="label">Risk Score</td>
-<td>{{ risk.score }}</td>
-</tr>
+        <div class="section-line"></div>
 
-<tr>
-<td class="label">Risk Level</td>
-<td>{{ risk.level }}</td>
-</tr>
+        <div class="project-overview">
 
-</table>
+            <div class="project-details">
 
-</div>
+                <div class="project-label">Project Name</div>
+                <div class="project-value">
+                    {{ project.project_name }}
+                </div>
 
-<div class="report-card">
+                <div class="project-label">Organization</div>
+                <div class="project-value">
+                    {{ project.organization }}
+                </div>
 
-<h2>AI Recommendation</h2>
+                <div class="project-label">Domain</div>
+                <div class="project-value">
+                    {{ project.domain }}
+                </div>
 
-<table class="report-table">
+                <div class="project-label">Technology Stack</div>
+                <div class="project-value">
+                    {{ project.tech_stack }}
+                </div>
 
-<tr>
-<td class="label">Project Health</td>
-<td>{{ recommendation.health }}</td>
-</tr>
+                <div class="project-label">Budget</div>
+                <div class="project-value">
+                    ₹ {{ "{:,.2f}".format(project.budget|float) }}
+                </div>
 
-<tr>
-<td class="label">Success Probability</td>
-<td>{{ recommendation.success_probability }}%</td>
-</tr>
+                <div class="project-label">Timeline</div>
+                <div class="project-value">
+                    {{ project.timeline }} Months
+                </div>
 
-</table>
+                <div class="project-label">Team Size</div>
+                <div class="project-value">
+                    {{ project.team_size }}
+                </div>
 
-</div>
+            </div>
 
-<div class="report-card">
 
-<h2>Market Intelligence</h2>
+            <div class="description-box">
 
-<table class="report-table">
+                <h3>Project Description</h3>
 
-<tr>
-<td class="label">Industry</td>
-<td>{{ market.industry }}</td>
-</tr>
+                <p>
+                    {{ project.description }}
+                </p>
 
-<tr>
-<td class="label">Market Demand</td>
-<td>{{ market.demand }}</td>
-</tr>
+            </div>
 
-<tr>
-<td class="label">Growth</td>
-<td>{{ market.growth }}</td>
-</tr>
+        </div>
 
-</table>
+    </div>
 
-</div>
 
-<div class="report-card">
+    <!-- =====================================================
+         KEY METRICS
+         ===================================================== -->
 
-<h2>Executive Summary</h2>
+    <div class="report-card">
 
-<p class="summary">
+        <div class="section-heading">
+            Key Project Metrics
+        </div>
 
-{{ summary }}
+        <div class="section-description">
+            Overall assessment at a glance
+        </div>
 
-</p>
+        <div class="metric-grid">
 
-</div>
+            <div class="metric-card">
 
-<div class="report-card">
+                <div class="metric-label">
+                    Risk Score
+                </div>
 
-<h2>Overall Verdict</h2>
+                <div class="metric-value">
+                    {{ risk.score }} / 100
+                </div>
 
-<div class="rating">
+                <div class="progress-track">
 
-{{ rating }}
+                    <div
+                        class="progress-fill"
+                        data-width="{{ risk.score }}">
+                    </div>
 
-</div>
+                </div>
 
-<div class="verdict">
+            </div>
 
-{{ verdict }}
 
-</div>
+            <div class="metric-card">
 
-</div>
+                <div class="metric-label">
+                    Risk Level
+                </div>
 
-<div class="navigation">
+                <div class="metric-value">
+                    {{ risk.level|trim }}
+                </div>
 
-<a href="/market" class="nav-btn">
+                <div class="metric-small">
+                    Current project risk position
+                </div>
 
-← Previous
+            </div>
 
-</a>
 
-<a href="/download-report" class="nav-btn">
+            <div class="metric-card">
 
-    📄 Download Report
+                <div class="metric-label">
+                    Success Probability
+                </div>
 
-</a>
+                <div class="metric-value">
+                    {{ recommendation.success_probability }}%
+                </div>
 
-</div>
+                <div class="progress-track">
+
+                    <div
+                        class="progress-fill"
+                        data-width="{{ recommendation.success_probability }}">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Project Health
+                </div>
+
+                <div class="metric-value">
+                    {{ recommendation.health }}
+                </div>
+
+                <div class="metric-small">
+                    Current overall project status
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RISK + ML
+         ===================================================== -->
+
+    <div class="two-column">
+
+        <!-- RISK FACTORS -->
+
+        <div class="report-card">
+
+            <div class="section-heading">
+                Risk Factor Breakdown
+            </div>
+
+            <div class="section-description">
+                Contribution of major project risk factors
+            </div>
+
+            <div class="section-line"></div>
+
+
+            <div class="risk-row">
+
+                <div class="risk-factor">
+                    Team Size
+                </div>
+
+                <div class="risk-level">
+                    {{ risk.team_level }}
+                </div>
+
+                <div class="risk-bar">
+
+                    <div
+                        class="risk-bar-fill"
+                        data-width="{{ risk.team_percent }}">
+                    </div>
+
+                </div>
+
+                <div class="risk-number">
+                    {{ risk.team_percent }}%
+                </div>
+
+            </div>
+
+
+            <div class="risk-row">
+
+                <div class="risk-factor">
+                    Budget
+                </div>
+
+                <div class="risk-level">
+                    {{ risk.budget_level }}
+                </div>
+
+                <div class="risk-bar">
+
+                    <div
+                        class="risk-bar-fill"
+                        data-width="{{ risk.budget_percent }}">
+                    </div>
+
+                </div>
+
+                <div class="risk-number">
+                    {{ risk.budget_percent }}%
+                </div>
+
+            </div>
+
+
+            <div class="risk-row">
+
+                <div class="risk-factor">
+                    Timeline
+                </div>
+
+                <div class="risk-level">
+                    {{ risk.timeline_level }}
+                </div>
+
+                <div class="risk-bar">
+
+                    <div
+                        class="risk-bar-fill"
+                        data-width="{{ risk.timeline_percent }}">
+                    </div>
+
+                </div>
+
+                <div class="risk-number">
+                    {{ risk.timeline_percent }}%
+                </div>
+
+            </div>
+
+
+            <div class="risk-row">
+
+                <div class="risk-factor">
+                    Technology
+                </div>
+
+                <div class="risk-level">
+                    {{ risk.technology_level }}
+                </div>
+
+                <div class="risk-bar">
+
+                    <div
+                        class="risk-bar-fill"
+                        data-width="{{ risk.technology_percent }}">
+                    </div>
+
+                </div>
+
+                <div class="risk-number">
+                    {{ risk.technology_percent }}%
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MACHINE LEARNING -->
+
+        <div class="report-card">
+
+            <div class="section-heading">
+                Machine Learning Assessment
+            </div>
+
+            <div class="section-description">
+                Risk prediction generated from the trained model
+            </div>
+
+            <div class="section-line"></div>
+
+
+            <div class="ml-box">
+
+                <div class="ml-title">
+                    Predicted Risk Level
+                </div>
+
+                <div class="ml-prediction">
+                    {{ ml_prediction }}
+                </div>
+
+            </div>
+
+
+            <div class="ml-details">
+
+                <div class="ml-label">
+                    Model Used
+                </div>
+
+                <div class="ml-value">
+                    Random Forest Classifier
+                </div>
+
+
+                <div class="ml-label">
+                    Input Features
+                </div>
+
+                <div class="ml-value">
+                    Budget, Team Size, Timeline,
+                    Priority, Domain
+                </div>
+
+
+                <div class="ml-label">
+                    Target
+                </div>
+
+                <div class="ml-value">
+                    Project Risk Level
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECOMMENDATIONS + MARKET
+         ===================================================== -->
+
+    <div class="two-column">
+
+        <!-- RECOMMENDATIONS -->
+
+        <div class="report-card">
+
+            <div class="section-heading">
+                AI Recommendations
+            </div>
+
+            <div class="section-description">
+                Priority actions based on the current assessment
+            </div>
+
+            <div class="section-line"></div>
+
+
+            {% for action in recommendation.priority_actions %}
+
+            <div class="recommendation-item">
+
+                <div class="recommendation-number">
+                    {{ loop.index }}
+                </div>
+
+                <div class="recommendation-content">
+
+                    <strong>
+                        {{ action }}
+                    </strong>
+
+                    <span>
+                        Action identified from the project's
+                        current risk profile.
+                    </span>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+            <div class="section-line"></div>
+
+
+            <div class="section-description">
+                Risk mitigation actions
+            </div>
+
+
+            {% for action in recommendation.mitigation[:2] %}
+
+            <div class="recommendation-item">
+
+                <div class="recommendation-number">
+                    {{ loop.index + recommendation.priority_actions|length }}
+                </div>
+
+                <div class="recommendation-content">
+
+                    <strong>
+                        {{ action }}
+                    </strong>
+
+                    <span>
+                        Recommended to improve project
+                        reliability and execution readiness.
+                    </span>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- MARKET -->
+
+        <div class="report-card">
+
+            <div class="section-heading">
+                Market Intelligence
+            </div>
+
+            <div class="section-description">
+                Domain-specific market information
+            </div>
+
+            <div class="section-line"></div>
+
+
+            <table class="market-table">
+
+                <tr>
+
+                    <td class="market-label">
+                        Industry
+                    </td>
+
+                    <td class="market-value">
+                        {{ market.industry }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td class="market-label">
+                        Market Demand
+                    </td>
+
+                    <td class="market-value">
+                        {{ market.demand }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td class="market-label">
+                        Growth
+                    </td>
+
+                    <td class="market-value">
+                        {{ market.growth }}
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            <div class="market-insight">
+
+                <strong>
+                    Key Market Insight
+                </strong>
+
+                <p>
+                    {{ market.insights }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         EXECUTIVE SUMMARY
+         ===================================================== -->
+
+    <div class="report-card">
+
+        <div class="section-heading">
+            Executive Summary
+        </div>
+
+        <div class="section-description">
+            Consolidated interpretation of the project assessment
+        </div>
+
+        <div class="section-line"></div>
+
+        <p class="summary-text">
+            {{ summary }}
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         FINAL ASSESSMENT
+         ===================================================== -->
+
+    <div class="report-card">
+
+        <div class="section-heading">
+            Final Assessment
+        </div>
+
+        <div class="section-description">
+            Overall project position based on the current analysis
+        </div>
+
+        <div class="section-line"></div>
+
+
+        <div class="final-assessment">
+
+            <div class="final-metrics">
+
+                <div class="final-metric">
+
+                    <div class="final-metric-label">
+                        Risk Level
+                    </div>
+
+                    <div class="final-metric-value">
+                        {{ risk.level|trim }}
+                    </div>
+
+                </div>
+
+
+                <div class="final-metric">
+
+                    <div class="final-metric-label">
+                        Project Health
+                    </div>
+
+                    <div class="final-metric-value">
+                        {{ recommendation.health }}
+                    </div>
+
+                </div>
+
+
+                <div class="final-metric">
+
+                    <div class="final-metric-label">
+                        Success Probability
+                    </div>
+
+                    <div class="final-metric-value">
+                        {{ recommendation.success_probability }}%
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="verdict-box">
+
+                <div class="rating">
+                    {{ rating }}
+                </div>
+
+                <div class="verdict">
+                    {{ verdict }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <div class="navigation">
+
+        <a
+            href="/decision-simulator"
+            class="nav-btn previous-btn">
+
+            ← Previous
+
+        </a>
+
+
+        <a
+            href="/download-report"
+            class="nav-btn download-btn">
+
+            ↓ Download Report PDF
+
+        </a>
+
+    </div>
 
 </div>
 

@@ -51,7 +51,7 @@ def register_routes(app):
         project = Project.query.order_by(Project.id.desc()).first()
 
         if project is None:
-            return redirect(url_for("risk"))
+            return redirect(url_for("market"))
 
         projects = Project.query.all()
 
@@ -823,26 +823,59 @@ Technology Risk:
     @app.route("/report")
     def report():
 
-        project = Project.query.order_by(Project.id.desc()).first()
+        project = Project.query.order_by(
+            Project.id.desc()
+        ).first()
 
         if project is None:
-            return redirect(url_for("home"))
 
-        risk = RiskService.calculate_risk(project)
+            return redirect(
+                url_for("home")
+            )
 
-        from services.recommendation_service import RecommendationService
-        recommendation = RecommendationService.generate(project, risk)
+        # =====================================================
+        # RISK ASSESSMENT
+        # =====================================================
 
-        from services.market_service import MarketService
-        market = MarketService.generate(project)
+        risk = RiskService.calculate_risk(
+            project
+        )
 
-        from services.report_service import ReportService
+
+        # =====================================================
+        # RECOMMENDATIONS
+        # =====================================================
+
+        recommendation = RecommendationService.generate(
+            project,
+            risk
+        )
+
+
+        # =====================================================
+        # MARKET INTELLIGENCE
+        # =====================================================
+
+        market = MarketService.generate(
+            project
+        )
+
+
+        # =====================================================
+        # EXECUTIVE REPORT DATA
+        # =====================================================
+
         report_data = ReportService.generate(
             project,
             risk,
             recommendation,
             market
         )
+
+
+        # =====================================================
+        # RENDER REPORT
+        # =====================================================
 
         return render_template(
 
@@ -860,26 +893,50 @@ Technology Risk:
 
             verdict=report_data["verdict"],
 
-            summary=report_data["summary"]
+            summary=report_data["summary"],
+
+            ml_prediction=report_data["ml_prediction"],
+
+            risk_factors=report_data["risk_factors"]
 
         )
+
+
+    # =========================================================
+    # DOWNLOAD EXECUTIVE REPORT
+    # =========================================================
+
     @app.route("/download-report")
     def download_report():
 
-        project = Project.query.order_by(Project.id.desc()).first()
+        project = Project.query.order_by(
+            Project.id.desc()
+        ).first()
 
         if project is None:
-            return redirect(url_for("home"))
 
-        risk = RiskService.calculate_risk(project)
+            return redirect(
+                url_for("home")
+            )
 
-        from services.recommendation_service import RecommendationService
-        recommendation = RecommendationService.generate(project, risk)
 
-        from services.market_service import MarketService
-        market = MarketService.generate(project)
+        # =====================================================
+        # GENERATE SAME DATA AS WEB REPORT
+        # =====================================================
 
-        from services.report_service import ReportService
+        risk = RiskService.calculate_risk(
+            project
+        )
+
+        recommendation = RecommendationService.generate(
+            project,
+            risk
+        )
+
+        market = MarketService.generate(
+            project
+        )
+
         report_data = ReportService.generate(
             project,
             risk,
@@ -887,56 +944,444 @@ Technology Risk:
             market
         )
 
+
+        # =====================================================
+        # PDF BUFFER
+        # =====================================================
+
         buffer = io.BytesIO()
 
-        doc = SimpleDocTemplate(buffer)
+
+        # =====================================================
+        # PDF DOCUMENT
+        # =====================================================
+
+        doc = SimpleDocTemplate(
+            buffer,
+            rightMargin=40,
+            leftMargin=40,
+            topMargin=40,
+            bottomMargin=40
+        )
+
 
         styles = getSampleStyleSheet()
 
         story = []
 
-        story.append(Paragraph("<b>Executive Project Report</b>", styles["Title"]))
 
-        story.append(Paragraph(f"<b>Project Name:</b> {project.project_name}", styles["BodyText"]))
-        story.append(Paragraph(f"<b>Domain:</b> {project.domain}", styles["BodyText"]))
-        story.append(Paragraph(f"<b>Technology:</b> {project.tech_stack}", styles["BodyText"]))
-        story.append(Paragraph(f"<b>Budget:</b> {project.budget}", styles["BodyText"]))
-        story.append(Paragraph(f"<b>Timeline:</b> {project.timeline} Months", styles["BodyText"]))
-        story.append(Paragraph(f"<b>Team Size:</b> {project.team_size}", styles["BodyText"]))
+        # =====================================================
+        # TITLE
+        # =====================================================
 
-        story.append(Paragraph("<br/>", styles["BodyText"]))
+        story.append(
+            Paragraph(
+                "<b>Smart Failure Detection</b>",
+                styles["Title"]
+            )
+        )
 
-        story.append(Paragraph("<b>Risk Assessment</b>", styles["Heading2"]))
-        story.append(Paragraph(f"Risk Score : {risk['score']}", styles["BodyText"]))
-        story.append(Paragraph(f"Risk Level : {risk['level']}", styles["BodyText"]))
+        story.append(
+            Paragraph(
+                "<b>Executive Project Report</b>",
+                styles["Heading2"]
+            )
+        )
 
-        story.append(Paragraph("<br/>", styles["BodyText"]))
 
-        story.append(Paragraph("<b>AI Recommendation</b>", styles["Heading2"]))
-        story.append(Paragraph(f"Project Health : {recommendation['health']}", styles["BodyText"]))
-        story.append(Paragraph(f"Success Probability : {recommendation['success_probability']}%", styles["BodyText"]))
+        story.append(
+            Paragraph(
+                "Project Intelligence for Better Decisions",
+                styles["BodyText"]
+            )
+        )
 
-        story.append(Paragraph("<br/>", styles["BodyText"]))
 
-        story.append(Paragraph("<b>Market Intelligence</b>", styles["Heading2"]))
-        story.append(Paragraph(f"Industry : {market['industry']}", styles["BodyText"]))
-        story.append(Paragraph(f"Market Demand : {market['demand']}", styles["BodyText"]))
-        story.append(Paragraph(f"Growth : {market['growth']}", styles["BodyText"]))
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
 
-        story.append(Paragraph("<br/>", styles["BodyText"]))
 
-        story.append(Paragraph("<b>Overall Evaluation</b>", styles["Heading2"]))
-        story.append(Paragraph(f"Rating : {report_data['rating']}", styles["BodyText"]))
-        story.append(Paragraph(f"Verdict : {report_data['verdict']}", styles["BodyText"]))
-        story.append(Paragraph(report_data["summary"], styles["BodyText"]))
+        # =====================================================
+        # PROJECT OVERVIEW
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Project Overview</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Project Name:</b> "
+                f"{project.project_name}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Organization:</b> "
+                f"{project.organization}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Domain:</b> "
+                f"{project.domain}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Technology:</b> "
+                f"{project.tech_stack}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Budget:</b> "
+                f"₹ {project.budget:,.2f}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Timeline:</b> "
+                f"{project.timeline} Months",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Team Size:</b> "
+                f"{project.team_size}",
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # RISK ASSESSMENT
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Risk Assessment</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Risk Score:</b> "
+                f"{risk['score']} / 100",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Risk Level:</b> "
+                f"{risk['level'].strip()}",
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # RISK FACTORS
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Risk Factor Breakdown</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"Team Size Risk: "
+                f"{risk['team_level']} "
+                f"({risk['team_percent']}%)",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"Budget Risk: "
+                f"{risk['budget_level']} "
+                f"({risk['budget_percent']}%)",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"Timeline Risk: "
+                f"{risk['timeline_level']} "
+                f"({risk['timeline_percent']}%)",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"Technology Risk: "
+                f"{risk['technology_level']} "
+                f"({risk['technology_percent']}%)",
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # MACHINE LEARNING
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Machine Learning Assessment</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Model:</b> "
+                f"Random Forest Classifier",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Prediction:</b> "
+                f"{report_data['ml_prediction']}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                "<b>Input Features:</b> "
+                "Budget, Team Size, Timeline, "
+                "Priority, Domain",
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # RECOMMENDATIONS
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>AI Recommendations</b>",
+                styles["Heading2"]
+            )
+        )
+
+        for index, action in enumerate(
+            recommendation["priority_actions"],
+            start=1
+        ):
+
+            story.append(
+                Paragraph(
+                    f"<b>{index}. {action}</b>",
+                    styles["BodyText"]
+                )
+            )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # MARKET INTELLIGENCE
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Market Intelligence</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Industry:</b> "
+                f"{market['industry']}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Market Demand:</b> "
+                f"{market['demand']}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Growth:</b> "
+                f"{market['growth']}",
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # EXECUTIVE SUMMARY
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Executive Summary</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                report_data["summary"],
+                styles["BodyText"]
+            )
+        )
+
+
+        story.append(
+            Paragraph(
+                "<br/>",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # FINAL ASSESSMENT
+        # =====================================================
+
+        story.append(
+            Paragraph(
+                "<b>Final Assessment</b>",
+                styles["Heading2"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Project Health:</b> "
+                f"{recommendation['health']}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Success Probability:</b> "
+                f"{recommendation['success_probability']}%",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Overall Verdict:</b> "
+                f"{report_data['verdict']}",
+                styles["BodyText"]
+            )
+        )
+
+        story.append(
+            Paragraph(
+                f"<b>Rating:</b> "
+                f"{report_data['rating']}",
+                styles["BodyText"]
+            )
+        )
+
+
+        # =====================================================
+        # BUILD PDF
+        # =====================================================
 
         doc.build(story)
 
         buffer.seek(0)
 
+
         return send_file(
+
             buffer,
+
             as_attachment=True,
+
             download_name="Executive_Report.pdf",
+
             mimetype="application/pdf"
+
         )

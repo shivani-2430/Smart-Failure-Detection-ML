@@ -2,70 +2,191 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Failure Detection</title>
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommendation.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Smart Failure Detection</title>
+
+
+    <!-- =====================================================
+         FONT AWESOME
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/recommendation.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/analytics.css') }}"
+    >
+
 </head>
+
 
 <body>
 
 <div class="layout">
 
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
     <aside class="sidebar">
 
-        <h2>Smart Failure Detection</h2>
+
+        <!-- PROJECT TITLE -->
+
+        <h2>
+            Smart Failure Detection
+        </h2>
+
+
+        <!-- =================================================
+             MAIN NAVIGATION
+
+             Workflow:
+
+             1. Project Input
+             2. Market Intelligence
+             3. Risk Assessment
+             4. Recommendations
+             5. AI Decision Simulator
+             6. Executive Report
+             ================================================= -->
 
         <nav>
 
-            <a href="/"
-                class="{% if request.path == '/' %}active{% endif %}">
+
+            <!-- =================================================
+                 1. PROJECT INPUT
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('home') }}"
+                class="{% if request.path == '/' %}active{% endif %}"
+            >
                 Project Input
             </a>
 
-            <a href="/risk"
-                class="{% if request.path == '/risk' %}active{% endif %}">
-                Risk Assessment
-            </a>
 
-            <a href="/recommendation"
-                class="{% if request.path == '/recommendation' %}active{% endif %}">
-                Recommendations
-            </a>
+            <!-- =================================================
+                 2. MARKET INTELLIGENCE
+                 ================================================= -->
 
-            <a href="/market"
-                class="{% if request.path == '/market' %}active{% endif %}">
+            <a
+                href="{{ url_for('market') }}"
+                class="{% if request.path == '/market' %}active{% endif %}"
+            >
                 Market Intelligence
             </a>
 
-            <a href="/decision-simulator"
-                class="{% if request.path == '/decision-simulator' %}active{% endif %}">
+
+            <!-- =================================================
+                 3. RISK ASSESSMENT
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('risk') }}"
+                class="{% if request.path == '/risk' %}active{% endif %}"
+            >
+                Risk Assessment
+            </a>
+
+
+            <!-- =================================================
+                 4. RECOMMENDATIONS
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('recommendations') }}"
+                class="{% if request.path == '/recommendation' %}active{% endif %}"
+            >
+                Recommendations
+            </a>
+
+
+            <!-- =================================================
+                 5. AI DECISION SIMULATOR
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('decision_simulator') }}"
+                class="{% if request.path == '/decision-simulator' %}active{% endif %}"
+            >
                 AI Decision Simulator
             </a>
-            <a href="/report"
-                class="{% if request.path == '/report' %}active{% endif %}">
+
+
+            <!-- =================================================
+                 6. EXECUTIVE REPORT
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('report') }}"
+                class="{% if request.path == '/report' %}active{% endif %}"
+            >
                 Executive Report
             </a>
+
 
         </nav>
 
     </aside>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="content">
 
         {% block content %}
+
         {% endblock %}
 
     </main>
 
+
 </div>
-<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='js/analytics.js') }}">
+</script>
+
+
 </body>
 
 </html>
