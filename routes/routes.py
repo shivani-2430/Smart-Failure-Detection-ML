@@ -44,7 +44,7 @@ def register_routes(app):
         db.session.add(project)
         db.session.commit()
 
-        return redirect(url_for("risk"))
+        return redirect(url_for("market"))
     @app.route("/decision-simulator")
     def decision_simulator():
 
